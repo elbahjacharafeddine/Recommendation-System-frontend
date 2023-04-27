@@ -45,6 +45,7 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import SignOut from "layouts/authentication/sign-out";
+import RestPassword from "layouts/authentication/rest-password"
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -162,7 +163,6 @@ const routes = [
     noCollapse: true,
     role:null
   },
-
   {
     type: "collapse",
     name: "Sign Up",
@@ -170,6 +170,16 @@ const routes = [
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: <SignUp />,
+    noCollapse: true,
+    role: null
+  },
+  {
+    type: "collapse",
+    name: "rest-password",
+    key: "sign-up",
+    route: "/authentication/rest-password",
+    icon: <SpaceShip size="12px" />,
+    component: <RestPassword />,
     noCollapse: true,
     role: null
   },

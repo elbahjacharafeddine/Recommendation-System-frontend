@@ -205,7 +205,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/profile-test" />} />
+          <Route path="*" element={<Navigate to="/profile" />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -229,7 +229,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/profile-test" />} />
+        <Route path="*" element={<Navigate to="/profile" />} />
       </Routes>
     </ThemeProvider>
   );

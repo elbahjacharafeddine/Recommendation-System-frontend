@@ -50,6 +50,8 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
+import imageProfile from "assets/images/curved-images/avatar1.png";
+
 import { useEffect,useState } from "react";
 
 import { toast } from 'react-toastify';
@@ -183,7 +185,7 @@ function Overview() {
                 <div class="card-header">Image de profile</div>
                 <div class="card-body text-center">
                     {/* <!-- Profile picture image--> */}
-                    <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                    <img class="img-account-profile rounded-circle mb-2" src={imageProfile} alt=""/>
                     {/* <!-- Profile picture help block--> */}
                     {/* <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div> */}
                     {/* <!-- Profile picture upload button--> */}

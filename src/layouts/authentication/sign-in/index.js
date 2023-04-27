@@ -55,6 +55,9 @@ function SignIn() {
   const { user } = useAuth();
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const handeRedirect = () =>{
+    navigate("/authentication/rest-password");
+  }
 
   const handleFormData = (e) => {
     setFormData({
@@ -188,6 +191,14 @@ function SignIn() {
                 sx={{ cursor: "pointer", userSelect: "none" }}
               >
                 &nbsp;&nbsp;Souviens-toi de moi
+              </SoftTypography>
+              <SoftTypography
+                variant="button"
+                fontWeight="regular"
+                onClick={handeRedirect}
+                sx={{ cursor: "pointer", userSelect: "none" }}
+              >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mot de passe oublié ?
               </SoftTypography>
             </SoftBox>
             <SoftBox mt={2} mb={2} textAlign="center">
