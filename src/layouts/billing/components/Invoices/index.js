@@ -20,15 +20,52 @@ import Card from "@mui/material/Card";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Billing page components
 import Invoice from "layouts/billing/components/Invoice";
+import axios from 'axios';
 
 import { FormControl,Box, CircularProgress , InputLabel, Select, MenuItem} from "@mui/material";
 
 function Invoices(props) {
-  const { invoices } = props;
+  // const { invoices } = props;
+  const [invoices, setInvoices] = useState(null);
+  const [image, setImage] = useState(null);
   const [selectedOption, setSelectedOption] = useState('');
+
+
+  const [responseData, setResponseData] = useState()
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    // Récupérer une valeur à partir de localStorage
+    const myValue = localStorage.getItem('user');
+    // Afficher la valeur récupérée
+    const jsonObj = JSON.parse(myValue);
+    // console.log(jsonObj.token);
+    setToken(jsonObj.token)
+    submitData()
+  });
+
+  const submitData= async() => {
+    let formData = new FormData()
+    formData.append("token", token)
+    axios.post("http://localhost:8000/prediction-user",formData)
+    .then((response) =>{
+      
+      setInvoices(response.data.predictions);
+    })
+
+    // const fetchData = async () => {
+    //   const response = await axios.post("http://localhost:8000/prediction-user",formData)
+    //   .then((response) =>{
+    //     console.log(response.data);
+    //     setResponseData(response.data.predictions);
+    //   })
+    // };
+
+    // fetchData();
+  }
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -52,16 +89,26 @@ function Invoices(props) {
           <Invoice date="March, 01, 2019" id="#AR-803481" price="$300" noGutter />
         </SoftBox>
       </SoftBox> */}
-      <div>
-      <h4 className="text-center">Recommendations</h4>
-      <ul>
-        {/* {invoices.map((invoice) => (
-          <li key={invoice.id}>
-            {invoice.date} - ${invoice.amount}
-          </li>
-        ))} */}
-      </ul>
-      </div>
+   <div >
+    <div className="card-content">
+  <h4 className="text-center card-hearder">Historique</h4>
+  </div>
+  {invoices ?
+  <ul>
+    {invoices.map((invoice) => (
+      <li key={invoice.id}>
+        {invoice.date}<br/>
+        <img src={`data:image/png;base64,${invoice.image}`} height="200px" width="100%" alt="Invoice icon" /> <br/>
+        {(invoice.coeff * 100).toFixed(2)}% - {invoice.classe}
+        <hr/>
+      </li>
+    ))}
+  </ul>
+  :
+  <p> en cours ...</p>
+}
+</div>
+
 
       
     </Card>

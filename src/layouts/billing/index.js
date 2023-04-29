@@ -33,6 +33,8 @@ import PaymentMethod from "layouts/billing/components/PaymentMethod";
 import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Billing() {
   const invoicesData = [
@@ -40,6 +42,38 @@ function Billing() {
     { id: 2, date: '2022-03-20', amount: 200.0 },
     { id: 3, date: '2022-03-25', amount: 300.0 },
   ];
+  const [responseData, setResponseData] = useState()
+  // const [token, setToken] = useState("");
+
+  // useEffect(() => {
+  //   // Récupérer une valeur à partir de localStorage
+  //   const myValue = localStorage.getItem('user');
+  //   // Afficher la valeur récupérée
+  //   const jsonObj = JSON.parse(myValue);
+  //   // console.log(jsonObj.token);
+  //   setToken(jsonObj.token)
+  //   submitData()
+  // });
+
+  // const submitData= async() => {
+  //   let formData = new FormData()
+  //   formData.append("token", token)
+  //   axios.post("http://localhost:8000/prediction-user",formData)
+  //   .then((response) =>{
+  //     setResponseData(response.data.predictions);
+  //   })
+
+  //   // const fetchData = async () => {
+  //   //   const response = await axios.post("http://localhost:8000/prediction-user",formData)
+  //   //   .then((response) =>{
+  //   //     console.log(response.data);
+  //   //     setResponseData(response.data.predictions);
+  //   //   })
+  //   // };
+
+  //   // fetchData();
+  // }
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -72,9 +106,9 @@ function Billing() {
                 </Grid>
               </Grid>
             </Grid>
-            {/* <Grid item xs={12} lg={4}>
-              <Invoices invoices={invoicesData}/>
-            </Grid> */}
+            <Grid item xs={12} lg={4}>
+              <Invoices invoices={responseData}/>
+            </Grid>
           </Grid>
         </SoftBox>
         <SoftBox my={3}>

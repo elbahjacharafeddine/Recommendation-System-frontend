@@ -35,6 +35,7 @@ import masterCardLogo from "assets/images/logos/mastercard.png";
 import visaLogo from "assets/images/logos/visa.png";
 import { useState, useEffect } from "react";
 import { DropzoneArea } from 'material-ui-dropzone';
+import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 import './style.css'
 
 import { Button, Modal } from 'react-bootstrap';
@@ -211,10 +212,49 @@ function PaymentMethod() {
 
   return (
     <>
+            <SoftBox mb={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "user statistique" }}
+                count="$103,430"
+                // percentage={{ color: "success", text: `+${((parseInt(todayusersnumber) / parseInt(items[0].progress.content)) * 100).toFixed(2)}%` }}
+                icon={{ color: "info", component: "people" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "user statistique" }}
+                count="$103,430"
+                // percentage={{ color: "success", text: `+${((parseInt(todaycommentarynumber) / parseInt(items[2].progress.content)) * 100).toFixed(2)}%` }}
+                icon={{ color: "info", component: "comment" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "user statistique" }}
+                count="$103,430"
+                // percentage={{ color: "success", text: `+${((parseInt(todaypredictionsnumber) / parseInt(items[1].progress.content)) * 100).toFixed(2)}%` }}
+                icon={{ color: "info", component: "multiline_chart" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "user statistique" }}
+                count="$103,430"
+                // percentage={{ color: "success", text: "+5%" }}
+                icon={{
+                  color: "info",
+                  component: "shopping_cart",
+                }}
+              />
+            </Grid>
+          </Grid>
+        </SoftBox>
 <Card id="delete-account">
           <div className="form-group" style={{ marginTop: 10}}>
             <select  className="form-control select2 select2-hidden-accessible"  tabindex="-1" aria-hidden="true"  onChange={handleChange}>
-                <option selected="selected" disabled>Selectionnez le type de votre image</option>
+                <option selected="selected" disabled>Selectionnez le type de plante</option>
                 <option value="potatoes">pomme de terre</option>
                 <option value="tomatoes">tomate</option>
                 <option value="apple">pomme</option>
