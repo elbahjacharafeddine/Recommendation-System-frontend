@@ -10,7 +10,7 @@ import { Modal } from "@mui/material";
 import { Close } from '@mui/icons-material';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from "@mui/material/Icon";
-
+import { useAuth } from "auth-context/auth.context";
 
 // ajoute recemment 
 
@@ -23,157 +23,10 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-// function Author({ image, name, email }) {
-//     return (
-//       <SoftBox display="flex" alignItems="center" px={1} py={0.5}>
-//         <SoftBox mr={2}>
-//           <SoftAvatar src={image} alt={name} size="sm" variant="rounded" />
-//         </SoftBox>
-//         <SoftBox display="flex" flexDirection="column">
-//           <SoftTypography variant="button" fontWeight="medium">
-//             {name}
-//           </SoftTypography>
-//           <SoftTypography variant="caption" color="secondary">
-//             {email}
-//           </SoftTypography>
-//         </SoftBox>
-//       </SoftBox>
-//     );
-//   }
-// function Function({ job, org }) {
-//     return (
-//       <SoftBox display="flex" flexDirection="column">
-//         <SoftTypography variant="caption" fontWeight="medium" color="text">
-//           {job}
-//         </SoftTypography>
-//         <SoftTypography variant="caption" color="secondary">
-//           {org}
-//         </SoftTypography>
-//       </SoftBox>
-//     );
-//   }
-// function SimpleTable() {
-//   const [users, setUsers] = useState([]);
-//   const [modalOpen, setModalOpen] = useState(false);
-//   const [editingUser, setEditingUser] = useState(null);
-//   const [selectedUser, setSelectedUser] = useState(null);
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [open, setOpen] = useState(false);
-//   const [currentUser, setCurrentUser] = useState(null);
 
-//   const handleEdit = (user) => {
-//     setSelectedUser(user);
-//     setCurrentUser(user);
-//     setIsModalOpen(true);
-//   }
 
-//   const handleClose = () => {
-//     setSelectedUser(null);
-//     setCurrentUser(null);
-//     setIsModalOpen(false);
-//   }
 
-//   const handleUpdate = (updatedUser) => {
-//     // make PUT request to update user
-//     axios.put('http://127.0.0.1:8000/api/users/edit/update_user/', updatedUser)
-//       .then((response) => {
-//         // update state with updated user
-//         setUsers(users.map((user) => (user.id === updatedUser.id ? updatedUser : user)));
-//         handleClose();
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   }
 
-//   useEffect(() => {
-//     axios.get("http://127.0.0.1:8000/api/users/getUsers")
-//       .then((response) => {
-//         setUsers(response.data);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   }, []);
-
-//   return (
-//     <table>
-//       <thead>
-//         <tr>
-//           <th style={{ paddingLeft: '20px' }}>user</th>
-//           <th>Username</th>
-//           <th>Email</th>
-//           <th>Status</th>
-//           <th>Date</th>
-//           <th>Action</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {users.map((user) => (
-//           <tr key={user.id}>
-//             <td><Author image={team2} name={user.username} email={user.email} /></td>
-//             <td>{user.username}</td>
-//             <td>{user.email}</td>
-//             <td>
-//       <SoftBadge variant="gradient" badgeContent="online" color="success" size="xs" container/>
-//            </td>
-//             <td>
-//             <SoftTypography variant="caption" color="secondary" fontWeight="medium" >
-//         {user.date}
-//       </SoftTypography>
-//             </td>
-//             <td>
-//             <SoftTypography
-//                   component="button"
-//                   variant="caption"
-//                   color="secondary"
-//                   fontWeight="medium"
-//                   onClick={() => handleEdit(user)}
-//                 >
-//                 Edit
-//                 </SoftTypography>
-//             </td>
-//           </tr>
-//         ))}
-//       </tbody>
-//       {isModalOpen && (
-//         <Modal open={isModalOpen} onClose={handleClose}>
-//         <div>
-//           <h2>Edit User</h2>
-//           <form>
-//             <label>
-//               Username:
-//               <input type="text" defaultValue={currentUser.username} />
-//             </label>
-//             <br />
-//             <label>
-//               Email:
-//               <input type="email" defaultValue={currentUser.email} />
-//             </label>
-//             <br />
-//             <button  onClick={() => handleUpdate(currentUser)}>Save</button>
-//           </form>
-//         </div>
-//       </Modal>
-//       )}
-//     </table>
-   
-      
-//   );
-// }
-
-// export default SimpleTable;
-
-// ...
-
-// import React, { useState, useEffect } from "react";
-// import SoftBox from "components/SoftBox";
-// import SoftTypography from "components/SoftTypography";
-// import SoftAvatar from "components/SoftAvatar";
-// import SoftBadge from "components/SoftBadge";
-// import axios from "axios";
-// import team2 from "assets/images/team-2.jpg";
-// import { Modal } from "@mui/material";
 
 function Author({ image, name, email }) {
   return (
@@ -213,6 +66,7 @@ function SimpleTable() {
   const [currentUser, setCurrentUser] = useState(null);
   const [comments, setComments] = useState([]);
   const [isModal2Open, setIsModal2Open] = useState(false);
+ 
 
  
 
@@ -250,6 +104,7 @@ function SimpleTable() {
       userID: currentUser.id,
       username: currentUser.username,
       email: currentUser.email,
+      is_superuser:currentUser.is_superuser
     };
     // make PUT request to update user
     axios
@@ -278,19 +133,7 @@ function SimpleTable() {
     setIsModal2Open(false);
   };
 
-//   const handleUpdate = (updatedUser) => {
-//     // make PUT request to update user
-//     axios
-//       .put("http://127.0.0.1:8000/api/users/edit/update_user/", updatedUser)
-//       .then((response) => {
-//         // update state with updated user
-//         setUsers(users.map((user) => (user.id === updatedUser.id ? updatedUser : user)));
-//         handleClose();
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
+
 
   useEffect(() => {
     axios
@@ -311,8 +154,9 @@ function SimpleTable() {
           <th>Nom</th>
           <th>Email</th>
           <th>Status</th>
-          <th>Date</th>
-          <th style={{paddingLeft: "30px",margin: "305px"}}>Action</th>
+          <th style={{paddingLeft: "30px",margin: "305px"}}>Role</th>
+          <th style={{paddingLeft: "60px",margin: "30px"}}>Date</th>
+          <th style={{paddingLeft: "85px",margin: "338px"}}>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -325,12 +169,21 @@ function SimpleTable() {
             <td>
       <SoftBadge variant="gradient" badgeContent="online" color="success" size="xs" container/>
            </td>
-             <td>
+             <td style={{paddingLeft: "30px",margin: "305px"}}>
+             {user.is_superuser ? (
+                // <p>Admin</p>
+                <SoftBadge variant="gradient" badgeContent="Admin" color="primary" size="xs" container/>
+              ) : (
+                // <p>Utilisateur normale</p>
+                <SoftBadge variant="gradient" badgeContent="Utilisateur" color="secondary" size="xs" container/>
+              )}
+             </td>
+             <td style={{paddingLeft: "30px",margin: "30px"}}>
              <SoftTypography variant="caption" color="secondary" fontWeight="medium" >
         {user.date}
       </SoftTypography>
             </td>
-             <td>
+             <td style={{paddingLeft: "20px"}}>
             {/* <SoftTypography
                   component="button"
                   variant="caption"
@@ -349,7 +202,7 @@ function SimpleTable() {
           </tbody>
           {isModalOpen && (
             <Modal open={isModalOpen} onClose={handleClose}>
-              <div className="container my-4" style={{ backgroundColor: "white", padding: "20px",maxWidth: "600px" }}>
+              <div className="container my-4" style={{ backgroundColor: "white", padding: "20px",maxWidth: "600px", borderRadius: "10px"  }}>
               <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "-5px" }}>
                 <IconButton onClick={handleClose}>
                   <Close />
@@ -366,10 +219,37 @@ function SimpleTable() {
                   </div>
                   <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="Entrer votre email"
+                    <input type="email" class="form-control" id="email" placeholder="Entrer votre email" readOnly
                       value={currentUser.email}
                       onChange={(e) => setCurrentUser({ ...currentUser, email: e.target.value })}
                     />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="role">Role:</label>
+                    <SoftBox mb={2}>
+                      <select
+                        name="is_superuser"
+                        id="role"
+                        onChange={(e) =>
+                          setCurrentUser({ ...currentUser, is_superuser: e.target.value })
+                        }
+                        style={{
+                          padding: "8px",
+                          fontSize: "1rem",
+                          border: "1px solid #87CEEB",
+                          borderRadius: "4px",
+                          backgroundColor: "#f7f7f7",
+                          backgroundImage: "linear-gradient(to bottom, #87CEEB, #f7f7f7)",
+                          width: "100%",
+                          maxWidth: "300px",
+                          margin: "0 auto",
+                        }}
+                      >
+                        <option value="">-- Select a role --</option>
+                        <option value="1">Admin</option>
+                        <option value="0">Utilisateur normal</option>
+                      </select>
+                    </SoftBox>
                   </div>
                   <br/>
                   <div class="text-center">
