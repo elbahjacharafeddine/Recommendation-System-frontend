@@ -46,6 +46,11 @@ import Separator from "layouts/authentication/components/Separator";
 import SoftButton from "components/SoftButton";
 import AuthApi from "../../api/auth";
 import { useAuth } from "auth-context/auth.context";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Button from '@mui/material/Button';
 // Images
 import curved6 from "assets/images/curved-images/curved14.jpg";
 
@@ -56,6 +61,8 @@ function Tables() {
   const { columns, rows } = authorsTableData;
   const { columns: prCols, rows: prRows } = projectsTableData;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedRole, setSelectedRole] = useState("");
+  // const [is_superuser, setRole] = useState(false);
   const navigate = useNavigate();
   const handleClose = () => {
     setIsModalOpen(false);
@@ -68,6 +75,7 @@ function Tables() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const { user } = useAuth();
 
@@ -90,16 +98,47 @@ function Tables() {
     }, 2000);
   };
 
+  const handleClose2 = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(user);
+  //   AuthApi.Register(formData)
+  //     .then((response) => {
+  //       if (response.data.success) {
+  //         console.log("registration made with success");
+  //         setIsModalOpen(false);
+  //         navigate("/utilisateurs");
+  //         window.location.reload();
+          
+  //       } else {
+  //         showError("Une erreur s'est produite.Veuillez vérifier vos entrées");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error.response) {
+  //         return showError("Une erreur s'est produite.Veuillez vérifier vos entrées");
+  //       }
+  //       return showError("Une erreur s'est produite.Veuillez vérifier vos entrées");
+  //     });
+      
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    AuthApi.Register(formData)
+    AuthApi.Register({ ...formData})
       .then((response) => {
         if (response.data.success) {
           console.log("registration made with success");
           setIsModalOpen(false);
           navigate("/utilisateurs");
+          console.log(user);
           window.location.reload();
-          
         } else {
           showError("Une erreur s'est produite.Veuillez vérifier vos entrées");
         }
@@ -110,8 +149,14 @@ function Tables() {
         }
         return showError("Une erreur s'est produite.Veuillez vérifier vos entrées");
       });
-      
   };
+
+
+
+
+
+
+
 
   return (
     <DashboardLayout>
@@ -140,54 +185,11 @@ function Tables() {
             
           </Card>
         </SoftBox>
-        {/* <Card>
-          <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-            <SoftTypography variant="h6">Projects table</SoftTypography>
-          </SoftBox>
-          <SoftBox
-            sx={{
-              "& .MuiTableRow-root:not(:last-child)": {
-                "& td": {
-                  borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                    `${borderWidth[1]} solid ${borderColor}`,
-                },
-              },
-            }}
-          >
-            <Table columns={prCols} rows={prRows} />
-          </SoftBox>
-        </Card> */}
+        
       </SoftBox>
       {isModalOpen && (
             <Modal open={isModalOpen} onClose={handleClose}>
               <div className="container my-4" style={{  padding: "20px",maxWidth: "600px" }}>
-              {/* <button className="btn btn-link float-end" onClick={handleClose}>
-                <i className="bi bi-x-lg"></i>
-              </button> */}
-              {/* <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "-5px" }}>
-                <IconButton onClick={handleClose}>
-                  <Close />
-                </IconButton>
-              </div> */}
-                {/* <h2>ADD New User</h2>
-                <form>
-                  <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter username"
-                      
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter email"
-                      
-                    />
-                  </div>
-                  <br/>
-                  <div class="text-center">
-                  <button type="submit" class="btn btn-primary" >Save</button>
-                  </div>
-                </form> */}
                 <Card>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "-5px" }}>
                 <IconButton onClick={handleClose}>
@@ -199,10 +201,7 @@ function Tables() {
               Ajouter un nouveau utilisateur
             </SoftTypography>
           </SoftBox>
-          {/* <SoftBox display="flex" flexDirection="column" alignItems="center" mb={2}>
-            <GithubSocial />
-          </SoftBox>
-          <Separator /> */}
+         
           <SoftBox pt={2} pb={3} px={3}>
             <SoftBox component="form" role="form">
               <SoftBox mb={2}>
@@ -230,26 +229,23 @@ function Tables() {
                   placeholder="Password"
                 />
               </SoftBox>
-              {/* <SoftBox display="flex" alignItems="center">
-                <Checkbox   />
-                <SoftTypography
-                  variant="button"
-                  fontWeight="regular"
-                  onClick={handleSetAgremment}
-                  sx={{ cursor: "poiner", userSelect: "none" }}
-                >
-                  &nbsp;&nbsp;I agree the&nbsp;
-                </SoftTypography>
-                <SoftTypography
-                  component="a"
-                  href="#"
-                  variant="button"
-                  fontWeight="bold"
-                  textGradient
-                >
-                  Terms and Conditions
-                </SoftTypography>
-               </SoftBox> */}
+             
+            <center><SoftBox mb={2}>
+              <select name="is_superuser" onChange={handleFormData} style={{ 
+                padding: "8px", 
+                fontSize: "1rem",
+                border: "1px solid #87CEEB",
+                borderRadius: "4px",
+                backgroundColor: "#f7f7f7",
+                backgroundImage: "linear-gradient(to bottom, #87CEEB, #f7f7f7)"
+              }}>
+                <option value="">-- Sélectionner le role--</option>
+                <option value="1">Admin</option>
+                <option value="0">Utilisateur normal</option>
+              </select>
+            </SoftBox></center>
+
+            
               <SoftBox mt={4}  mb={2} textAlign="center">
                 <h6
                   style={{
@@ -268,21 +264,7 @@ function Tables() {
                   <span style={{color: "white"}}>Enregistrer</span>
                 </SoftButton>
               </SoftBox>
-               {/* <SoftBox mt={3} textAlign="center">
-                <SoftTypography variant="button" color="text" fontWeight="regular">
-                  Already have an account?&nbsp;
-                  <SoftTypography
-                    component={Link}
-                    to="/authentication/sign-in"
-                    variant="button"
-                    color="dark"
-                    fontWeight="bold"
-                    textGradient
-                  >
-                    Sign in
-                  </SoftTypography>
-                </SoftTypography>
-              </SoftBox>  */}
+              
             </SoftBox>
           </SoftBox>
         </Card>
