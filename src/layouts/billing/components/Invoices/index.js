@@ -32,6 +32,7 @@ function Invoices(props) {
   const [invoices, setInvoices] = useState(null);
   const [image, setImage] = useState(null);
   const [selectedOption, setSelectedOption] = useState('');
+  const [variableforResponse ,setVariableforResponse] = useState(false)
 
 
   const [responseData, setResponseData] = useState()
@@ -52,8 +53,11 @@ function Invoices(props) {
     formData.append("token", token)
     axios.post("http://localhost:8000/prediction-user",formData)
     .then((response) =>{
-      
+      console.log(response.data.predictions);
       setInvoices(response.data.predictions);
+      if(response.data.predictions.length !=0){
+        setVariableforResponse(true)
+      }
     })
 
     // const fetchData = async () => {
@@ -106,6 +110,11 @@ function Invoices(props) {
   </ul>
   :
   <p> en cours ...</p>
+}
+{!variableforResponse ?
+  <p>aucune prediction !</p>
+  :
+  <></>
 }
 </div>
 
