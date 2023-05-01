@@ -209,6 +209,39 @@ function PaymentMethod() {
      setIsChecked(true)
   }
 
+  const [nbrCommentaire, setNbrCommentaire]= useState(0)
+  const [nbrPredicition, setNbrPredicition] = useState(0)
+  const [username, setUsername] = useState("")
+  const [rol, setRol] = useState("")
+  const [id, setId] = useState(0)
+  useEffect(() => {
+    // Récupérer une valeur à partir de localStorage
+    const myValue = localStorage.getItem('user');
+    // Afficher la valeur récupérée
+    const jsonObj = JSON.parse(myValue);
+    // console.log(jsonObj.token);
+    // setToken(jsonObj.token)
+    setUsername(jsonObj.username)
+    setId(jsonObj._id)
+    if(jsonObj.role ==true){
+      setRol("Admin")
+    }
+    else{
+      setRol("Agriculteur")
+    }
+  });
+
+  useEffect( ()  =>{
+    let formData = new FormData()
+    formData.append("id",id)
+    axios.post("http://localhost:8000/stati-user",formData)
+    .then((response) =>{
+      if(response.status ==200){
+        setNbrCommentaire(response.data.commentaire)
+        setNbrPredicition(response.data.predicition)
+      }
+    })
+  })
 
   return (
     <>
@@ -216,37 +249,33 @@ function PaymentMethod() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "user statistique" }}
-                count="$103,430"
+                title={{ text: `${username}` }}
                 // percentage={{ color: "success", text: `+${((parseInt(todayusersnumber) / parseInt(items[0].progress.content)) * 100).toFixed(2)}%` }}
                 icon={{ color: "info", component: "people" }}
               />
             </Grid>
+
+            <Grid item xs={12} sm={6} xl={3}>
+            <MiniStatisticsCard
+                title={{ text: `${rol}` }}
+                // percentage={{ color: "success", text: `+${((parseInt(todayusersnumber) / parseInt(items[0].progress.content)) * 100).toFixed(2)}%` }}
+                icon={{ color: "success", component: "security" }}
+              />
+            </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "user statistique" }}
-                count="$103,430"
+                title={{ text: "Commentaires" }}
+                count={nbrCommentaire}
                 // percentage={{ color: "success", text: `+${((parseInt(todaycommentarynumber) / parseInt(items[2].progress.content)) * 100).toFixed(2)}%` }}
-                icon={{ color: "info", component: "comment" }}
+                icon={{ color: "primary", component: "comment" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "user statistique" }}
-                count="$103,430"
+            <MiniStatisticsCard
+                title={{ text: "Prédictions" }}
+                count={nbrPredicition}
                 // percentage={{ color: "success", text: `+${((parseInt(todaypredictionsnumber) / parseInt(items[1].progress.content)) * 100).toFixed(2)}%` }}
-                icon={{ color: "info", component: "multiline_chart" }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "user statistique" }}
-                count="$103,430"
-                // percentage={{ color: "success", text: "+5%" }}
-                icon={{
-                  color: "info",
-                  component: "shopping_cart",
-                }}
+                icon={{ color: "dark", component: "insights" }}
               />
             </Grid>
           </Grid>

@@ -53,7 +53,7 @@ function Invoices(props) {
     formData.append("token", token)
     axios.post("http://localhost:8000/prediction-user",formData)
     .then((response) =>{
-      console.log(response.data.predictions);
+      // console.log(response.data.predictions);
       setInvoices(response.data.predictions);
       if(response.data.predictions.length !=0){
         setVariableforResponse(true)
