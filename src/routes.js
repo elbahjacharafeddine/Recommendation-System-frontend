@@ -59,6 +59,7 @@ import CreditCard from "examples/Icons/CreditCard";
 import Tree from "examples/Icons/Tree";
 import Cube from "examples/Icons/Cube";
 import ProfileTest from "layouts/elbahja"
+import ProjectGuide from"layouts/ProjectGuide";
 
 const routes = [
   {
@@ -68,6 +69,18 @@ const routes = [
     route: "/profile",
     icon: <CustomerSupport size="12px" />,
     component: <ProfileTest />,
+    noCollapse: true,
+    protected: true,
+    role:null,
+    like : "all",
+  },
+  {
+    type: "collapse",
+    name: "guide d'utilisation",
+    key: "guide",
+    route: "/guide-utilisation",
+    icon: <CustomerSupport size="12px" />,
+    component: <ProjectGuide />,
     noCollapse: true,
     protected: true,
     role:null,
