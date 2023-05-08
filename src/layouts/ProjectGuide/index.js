@@ -105,7 +105,7 @@ function SwipeableTextMobileStepper() {
   const navigate = useNavigate();
   const handleClose = () => {
     setIsModalOpen(false);
-    navigate("/dashboard");
+    navigate("/profile");
   };
 
   const handleNext = () => {
